@@ -16,11 +16,40 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Description of what the lane does"
-  lane :custom_lane do
-    # add actions here: https://docs.fastlane.tools/actions
+
+############################## PRE ##############################
+
+  before_all do
+    ensure_git_status_clean
   end
+
+#### Tests ####
+
+desc "Run all Unit, UI"
 lane :tests do
-  run_tests(scheme: "MyAppTests")
+  run_tests(message: "Unit, UI")
 end
+
+desc "Run Unit tests"
+lane :unit_tests do
+  run_tests(message: "Unit", scheme: "Fastlane_ProjectTests")
+end
+
+desc "Run UI Tests"
+lane :ui_tests do
+  run_tests(message: "UI", scheme: "Fastlane_ProjectUITests")
+end
+	
+desc "Check style and conventions"
+lane :lint do
+  oclint(strict: true)
+end
+
+####################### Build and Deploy #################################
+	
+desc "Build and prepare deployment"
+lane :build_for_deploy do
+  xcodebuild sdk: "iphoneos", configuration: "development"
+end
+	
 end
