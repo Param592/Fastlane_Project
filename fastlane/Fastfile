@@ -19,10 +19,6 @@ platform :ios do
 
 ############################## PRE ##############################
 
-  before_all do
-    ensure_git_status_clean
-  end
-
 #### Tests ####
 
 desc "Run all Unit, UI"
